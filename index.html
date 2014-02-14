@@ -1,0 +1,44 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <title>exquis syntactic sugar test</title>
+    <meta name="description" content="live coding environment exploration">
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    <style>
+      .ace_editor { 
+          position: relative;
+          height: 700px;
+          width: 50%;
+      }
+      #container{
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+      #errors{
+        display: block;
+        width: 50%;
+        height: 10px;
+        font-family: sans-serif;
+        color: grey;
+      }
+      canvas{
+        display: block;
+        border-style: solid;
+        border-width: 1px;
+        border-color: rgb(230, 230, 230); 
+      }
+    </style>
+    <script src="/lib/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/lib/escodegen.browser.min.js"></script>
+    <script src="/lib/esprima.js"></script>
+    <script src="/exquis/parseExquis.js"></script>
+    <script src="/app.js"></script>
+</head>
+<body>
+  <div id="container">
+    <canvas id="myCanvas" width=300 height=300></canvas>
+    <p id="errors" rows="1" cols="80" spellcheck="false"></p>
+    <div id="editor" class="ace_editor"></div>
+  </div>
+</body>
