@@ -42,10 +42,6 @@ var main = function(){
 
         animObj = testAnimObj;
 
-        if (parseExquis.isSetupExecutionNecessary(currentParseObject, newParseObj)){
-            runSetup();
-        }
-
         currentParseObject = newParseObj;
     }
 
@@ -53,13 +49,6 @@ var main = function(){
         ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    var runSetup = function(){
-        if (animObj != null){
-            console.log("run setup");
-            resetMatrices();
-            animObj.setup();
-        }
-    }
 
     var handleNewParseObject = function(newParseObj){
 

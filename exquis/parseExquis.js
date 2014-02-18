@@ -69,7 +69,7 @@ var parseExquis = (function(){
         }
 
         if (nodeCandidates.length > 1){
-            // error we only handle one named func setup
+            // error we only handle one func name funcName 
             parseObject.error = buildError(errorTypes.EXQUIS_SYNTAX, "we don't handle more than one " + funcName + " function definition");
             return parseObject;
         }
@@ -83,10 +83,6 @@ var parseExquis = (function(){
         return parseObject;
     }
 
-    function parseSetup(parseObject){
-        return parseFuncDeclaration(parseObject, "setup");
-    }
-
     function parseDraw(parseObject){
         return parseFuncDeclaration(parseObject, "draw");
     }
@@ -94,7 +90,6 @@ var parseExquis = (function(){
     function buildClosureBody(parseObject){
         var result = parseObject.fullCodeString;
         
-        result = result.replace(parseObject.setup.str, "");
         result = result.replace(parseObject.draw.str, "");
 
         var parseOpt = {tolerant: false, loc: false, range: false}; // in the hopes of easier ast comparison
@@ -111,10 +106,6 @@ var parseExquis = (function(){
         var result = { error: null,
                                      fullCodeString: fullCodeString,
                                      ast: null,
-                                     setup:{
-                                        node: null,
-                                        str: null
-                                        },
                                      draw:{
                                         node: null,
                                         str: null
@@ -122,7 +113,7 @@ var parseExquis = (function(){
                                     closureBodyStr: null,
                                     closureBodyAst:null
                                 },
-            steps = [parseAst, parseSetup, parseDraw, buildClosureBody];
+            steps = [parseAst, parseDraw, buildClosureBody];
 
         for (var i = 0; i < steps.length; i++) {
             result = steps[i](result);
@@ -137,8 +128,7 @@ var parseExquis = (function(){
     function buildTransformedString(parseObject){
         var result = "function(ctx){\n";
         result += parseObject.closureBodyStr;
-        result += "\nreturn { setup: " + parseObject.setup.str + ",\n";
-        result += "draw: " + parseObject.draw.str + "}\n";
+        result += "\nreturn { draw: " + parseObject.draw.str + "}\n";
         result += "}";
         return result;
     }
@@ -151,19 +141,6 @@ var parseExquis = (function(){
         return escodegen.generate(parseA.ast) == escodegen.generate(parseB.ast);
     }
 
-    function isSetupExecutionNecessary(parseA, parseB){
-
-        if (parseA == null || parseB == null){
-            return true;
-        }  
-
-        var a_closureStr = escodegen.generate(parseA.closureBodyAst),
-                b_closureStr = escodegen.generate(parseB.closureBodyAst),
-                a_setupStr = escodegen.generate(parseA.setup.node),
-                b_setupStr = escodegen.generate(parseB.setup.node);
-
-        return a_closureStr != b_closureStr || a_setupStr != b_setupStr;
-    }
 
     var errorTypes = {
         AST: "ast",
@@ -174,7 +151,6 @@ var parseExquis = (function(){
         stringToParseObject: stringToParseObject,
         buildTransformedString: buildTransformedString,
         isFullCodeIdentical: isFullCodeIdentical,
-        isSetupExecutionNecessary: isSetupExecutionNecessary,
         errorTypes: errorTypes
     }
 })();
