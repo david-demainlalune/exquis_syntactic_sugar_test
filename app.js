@@ -6,7 +6,65 @@ var main = function(){
     errorsTextField = document.getElementById("errors"),
     currentParseObject = null,
     animObj = null,
-    listeners = [];
+    listeners = [],
+    input;
+
+
+  var getMousePos = function(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+  }
+
+  var buildInput = function(canvas){
+
+    var mousePosition = {x:null, y: null},
+        mouseDown = false,
+        mouseDownEvent = false,
+        mouseUpEvent = false;
+
+    var result = {
+      getMousePosition: function(){ return mousePosition; },
+      getMouseButtonDown: function(){
+        if (mouseDownEvent){
+          mouseDownEvent = false;
+          return true;
+        }
+        return false;
+      },
+      getMouseButtonUp: function(){
+
+        if (mouseUpEvent){
+          mouseUpEvent = false;
+          return true;
+        }
+        return false;
+      },
+      getMouseButton: function(){
+        return mouseDown;
+      }
+    }
+
+    canvas.addEventListener('mousemove', function(e){
+      mousePosition = getMousePos(canvas, e);
+    });
+
+    canvas.addEventListener('mousedown', function(e){
+      mouseDown = true;
+      mouseDownEvent = true;
+    });
+
+    document.documentElement.addEventListener('mouseup', function(e){
+      if (mouseDown){
+        mouseDown = false;
+        mouseUpEvent = true; 
+      }
+    });
+
+    return result;
+  };
 
   var buildEditor = function(id){
     var result = ace.edit(id);
@@ -17,13 +75,7 @@ var main = function(){
   }
 
 
-  var getMousePos = function(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top
-    };
-  }
+
 
 
   var addListeners = function(animObj, canvas, listeners){
@@ -68,18 +120,19 @@ var main = function(){
       return;
     }
 
-    try{
-      if (testAnimObj.draw != null){
+    if (testAnimObj.draw != null){
+      try {
         testAnimObj.draw();
+      } catch(e){
+        errorsTextField.innerHTML = e.message;
+        return;
       }
-    }catch(e){
-      errorsTextField.innerHTML = e.message;
-      return;
     }
 
     removeListeners(canvas, listeners);
 
     animObj = testAnimObj;
+    animObj.input = input;
 
     addListeners(animObj, canvas, listeners);
 
@@ -118,14 +171,17 @@ var main = function(){
   var render = function(timestamp){
     if (animObj != null && animObj.draw != null){
       resetMatrices();
-      animObj.draw();
+      try{
+        animObj.draw();
+      }catch(e){
+        errorsTextField.innerHTML = e.message;
+      } 
     }
-
     requestAnimationFrame(render);
   }
 
 
-
+  input = buildInput(canvas);
   editor = buildEditor("editor");
   editor.getSession().on('change', onEditorChange);
 
@@ -134,4 +190,4 @@ var main = function(){
 }
 
 
-    window.onload = main;
+window.onload = main;
