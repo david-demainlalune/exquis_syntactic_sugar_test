@@ -27,23 +27,13 @@ var main = function(){
 
     var result = {
       getMousePosition: function(){ return mousePosition; },
-      getMouseButtonDown: function(){
-        if (mouseDownEvent){
-          mouseDownEvent = false;
-          return true;
-        }
-        return false;
-      },
-      getMouseButtonUp: function(){
-
-        if (mouseUpEvent){
-          mouseUpEvent = false;
-          return true;
-        }
-        return false;
-      },
-      getMouseButton: function(){
-        return mouseDown;
+      getMouseButtonDown: function(){ return mouseDownEvent; },
+      getMouseButtonUp: function(){ return mouseUpEvent; },
+      getMouseButton: function(){ return mouseDown; },
+      __postRenderCleanup: function(){
+        //TODO this is hacky
+        mouseDownEvent = false;
+        mouseUpEvent = false;
       }
     }
 
@@ -73,10 +63,6 @@ var main = function(){
     result.setFontSize("16px");
     return result;
   }
-
-
-
-
 
   var addListeners = function(animObj, canvas, listeners){
 
@@ -177,6 +163,8 @@ var main = function(){
         errorsTextField.innerHTML = e.message;
       } 
     }
+
+    input.__postRenderCleanup();
     requestAnimationFrame(render);
   }
 
