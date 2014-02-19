@@ -104,10 +104,11 @@ var main = function(){
 
   var updateAnimObj = function(newParseObj){
     //the abomination
-    var transformedStr = parseExquis.buildTransformedString(newParseObj);
+    var functionBody = parseExquis.buildFunctionBodyString(newParseObj),
+        makeAnim;
 
     try{
-      eval("var makeAnim = " + transformedStr);
+      makeAnim = new Function("ctx", "input", functionBody);
     }catch (e){
       errorsTextField.innerHTML = e.message;
       return;

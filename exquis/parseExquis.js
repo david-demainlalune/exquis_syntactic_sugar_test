@@ -138,25 +138,24 @@ var parseExquis = (function(){
     return result;
   }
 
-  function buildTransformedString(parseObject){
-    var result = "function(ctx, input){\n";
-    result += "\t" + parseObject.closureBodyStr;
+  function buildFunctionBodyString(parseObject){
+    var result = parseObject.closureBodyStr;
 
-    result += "\n\treturn {\n";
+    result += "\nreturn {\n";
 
     var returnObjectProperties = [];
 
     if (parseObject.draw.node != null){
-      returnObjectProperties.push("\t\tdraw: " + parseObject.draw.str);
+      returnObjectProperties.push("\tdraw: " + parseObject.draw.str);
     }
 
     if (parseObject.mouseMove.node != null){
-      returnObjectProperties.push("\t\tmouseMove: " + parseObject.mouseMove.str);
+      returnObjectProperties.push("\tmouseMove: " + parseObject.mouseMove.str);
     }
 
     result += returnObjectProperties.join();
 
-    result += "\t}\n}";
+    result += "\t}";
     return result;
   }
 
@@ -178,7 +177,7 @@ var parseExquis = (function(){
 
   return {
     stringToParseObject: stringToParseObject,
-    buildTransformedString: buildTransformedString,
+    buildFunctionBodyString: buildFunctionBodyString,
     isFullCodeIdentical: isFullCodeIdentical,
     errorTypes: errorTypes
   }
