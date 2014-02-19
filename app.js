@@ -114,7 +114,7 @@ var main = function(){
     }
 
     try{
-      testAnimObj = makeAnim(ctx);
+      testAnimObj = makeAnim(ctx, input);
     }catch (e){
       errorsTextField.innerHTML = e.message;
       return;
@@ -132,7 +132,6 @@ var main = function(){
     removeListeners(canvas, listeners);
 
     animObj = testAnimObj;
-    animObj.input = input;
 
     addListeners(animObj, canvas, listeners);
 

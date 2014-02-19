@@ -139,7 +139,7 @@ var parseExquis = (function(){
   }
 
   function buildTransformedString(parseObject){
-    var result = "function(ctx){\n";
+    var result = "function(ctx, input){\n";
     result += "\t" + parseObject.closureBodyStr;
 
     result += "\n\treturn {\n";

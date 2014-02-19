@@ -1,16 +1,13 @@
 # exquis syntactic sugar test
 
-Side project for the [exquis](https://github.com/gongfuio/Exquis) live coding environment, which explores the possibility of simplifying the user syntax. The idea is to adopt a more "processing" like syntax.
+Side project for the [exquis](https://github.com/gongfuio/Exquis) live coding environment, which explores the possibility of simplifying the user syntax. 
 
 ## idea
 Transform user syntax of type:
-      
+      // any setup code      
       var i = 0;
 
-      function setup(){
-
-      }
-
+      // called repeatedly 
       function draw(){
         ctx.fillRect(i, i, 10, 10);
       }
@@ -22,9 +19,6 @@ Into an internal clojure representation for live evaling:
         var i = 0;
 
         return{
-          setup: function setup(){
-
-          },
           draw: function draw(){
             ctx.fillRect(i, i, 10, 10);
           }
@@ -52,4 +46,7 @@ write live evalled code for the canvas element at the top of the page. The canva
     function draw(){
 
     }
+
+
+there is also a input object
 
