@@ -6,7 +6,6 @@ var main = function(){
     errorsTextField = document.getElementById("errors"),
     currentParseObject = null,
     animObj = null,
-    listeners = [],
     input;
 
 
@@ -64,29 +63,6 @@ var main = function(){
     return result;
   }
 
-  var addListeners = function(animObj, canvas, listeners){
-
-    if(animObj.mouseMove != null){
-
-      var listener = function(evt) {
-        var mousePos = getMousePos(canvas, evt);
-        console.log(mousePos);
-        animObj.mouseMove(mousePos);
-      };
-      canvas.addEventListener('mousemove', listener);
-
-      listeners.push({type:'mousemove', func: listener})
-    }
-  }
-
-
-  var removeListeners = function(canvas, listeners){
-    listeners.forEach(function (listenerDescription){
-      canvas.removeEventListener(listenerDescription.type, listenerDescription.func);
-    });
-
-    listeners.length = 0; // http://stackoverflow.com/questions/1232040/how-to-empty-an-array-in-javascript
-  }
 
   var updateAnimObj = function(newParseObj){
     //the abomination
@@ -116,11 +92,7 @@ var main = function(){
       }
     }
 
-    removeListeners(canvas, listeners);
-
     animObj = testAnimObj;
-
-    addListeners(animObj, canvas, listeners);
 
     currentParseObject = newParseObj;
   }

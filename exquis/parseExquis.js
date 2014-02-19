@@ -86,18 +86,12 @@ var parseExquis = (function(){
     return parseFuncDeclaration(parseObject, "draw");
   }
 
-  function parseMouseMove(parseObject){
-    return parseFuncDeclaration(parseObject, "mouseMove");
-  }
 
   function buildClosureBody(parseObject){
     var result = parseObject.fullCodeString;
     
     if (parseObject.draw.str != null)
       result = result.replace(parseObject.draw.str, "");
-
-    if (parseObject.mouseMove.str != null)
-      result = result.replace(parseObject.mouseMove.str, "");
 
     var parseOpt = {tolerant: false, loc: false, range: false}; // in the hopes of easier ast comparison
     parseObject.closureBodyAst = esprima.parse(result, parseOpt, 4);
@@ -117,15 +111,11 @@ var parseExquis = (function(){
         node: null,
         str: null
       },
-      mouseMove: {
-        node: null,
-        str: null
-      },
       closureBodyStr: null,
       closureBodyAst:null
     };
 
-    var steps = [parseAst, parseDraw, parseMouseMove, buildClosureBody];
+    var steps = [parseAst, parseDraw, buildClosureBody];
 
     for (var i = 0; i < steps.length; i++) {
       result = steps[i](result);
@@ -147,10 +137,6 @@ var parseExquis = (function(){
 
     if (parseObject.draw.node != null){
       returnObjectProperties.push("\tdraw: " + parseObject.draw.str);
-    }
-
-    if (parseObject.mouseMove.node != null){
-      returnObjectProperties.push("\tmouseMove: " + parseObject.mouseMove.str);
     }
 
     result += returnObjectProperties.join();
