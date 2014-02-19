@@ -38,15 +38,36 @@ run from any http server, for instance with python:
 
 write live evalled code for the canvas element at the top of the page. The canvas' 2d context is accessed through ctx. Example:
 
-    function setup(){
-      ctx.fillStyle = "red";
-      ctx.fillRect(0, 0, 10, 10);
+   
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, 0, 10, 10);
+    var i = 0;
+
+    function draw(){
+      ctx.fillRect(i, 0, 10, 10);
+      i = (i + 1) % ctx.canvas.width;
     }
+
+
+there is also an input object for basic mouse polling
+
 
     function draw(){
 
+      if (input.getMouseButton()){
+        // true as long as mouse is down;
+        var mousePosition = input.getMousePosition();
+        ctx.fillRect(mousePosition.x, mousePosition.y, 10, 10);
+      }
+
+      if (input.getMouseButtonDown()){
+        // true on frame where mouse is down
+        console.log("down event")
+      }
+
+      if (input.getMouseButtonUp()){
+        // true on frame where mouse is up
+        console.log("up event")
+      }
     }
-
-
-there is also a input object
 
