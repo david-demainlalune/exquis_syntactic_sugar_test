@@ -4,6 +4,7 @@ Side project for the [exquis](https://github.com/gongfuio/Exquis) live coding en
 
 ## idea
 Transform user syntax of type:
+
       // any setup code      
       var i = 0;
 
