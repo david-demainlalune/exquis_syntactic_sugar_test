@@ -58,6 +58,8 @@ var main = function(){
   var buildEditor = function(id){
     var result = ace.edit(id);
 
+    result.setKeyboardHandler("ace/keyboard/vim");
+
     result.getSession().setMode("ace/mode/javascript");
     result.setFontSize("16px");
     return result;
