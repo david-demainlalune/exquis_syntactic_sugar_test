@@ -6,7 +6,8 @@ var main = function(){
     errorsTextField = document.getElementById("errors"),
     currentParseObject = null,
     animObj = null,
-    input;
+    input,
+    config;
 
 
   var getMousePos = function(canvas, evt) {
@@ -57,12 +58,27 @@ var main = function(){
 
   var buildEditor = function(id){
     var result = ace.edit(id);
-
-    result.setKeyboardHandler("ace/keyboard/vim");
-
     result.getSession().setMode("ace/mode/javascript");
     result.setFontSize("16px");
     return result;
+  }
+
+  var buildConfig = function(editor){
+
+    var makeChangeKeyboardHandlerFunc = function(keyboardHandler){
+      return function(weWantIt){
+        if (weWantIt){
+          editor.setKeyboardHandler(keyboardHandler);
+        }else{
+          editor.setKeyboardHandler();
+        } 
+      }
+    }
+
+    return {
+      vi: makeChangeKeyboardHandlerFunc("ace/keyboard/vim"),
+      emacs: makeChangeKeyboardHandlerFunc("ace/keyboard/emacs")
+    }
   }
 
 
@@ -72,14 +88,14 @@ var main = function(){
         makeAnim;
 
     try{
-      makeAnim = new Function("ctx", "input", functionBody);
+      makeAnim = new Function("ctx", "input", "config", functionBody);
     }catch (e){
       errorsTextField.innerHTML = e.message;
       return;
     }
 
     try{
-      testAnimObj = makeAnim(ctx, input);
+      testAnimObj = makeAnim(ctx, input, config);
     }catch (e){
       errorsTextField.innerHTML = e.message;
       return;
@@ -146,6 +162,8 @@ var main = function(){
   input = buildInput(canvas);
   editor = buildEditor("editor");
   editor.getSession().on('change', onEditorChange);
+
+  config = buildConfig(editor);
 
   generalizeRequestAnimation();
   requestAnimationFrame(render);
