@@ -1,6 +1,6 @@
 # exquis syntactic sugar test
 
-Side project for the [exquis](https://github.com/gongfuio/Exquis) live coding environment, which explores the possibility of simplifying the user syntax. 
+Side project for the [exquis](https://github.com/gongfuio/Exquis) live coding environment, which explores the possibility of simplifying the user syntax. You can play around with it [here](http://david-demainlalune.github.io/exquis_syntactic_sugar_test/)
 
 ## idea
 Transform user syntax of type:
@@ -37,6 +37,9 @@ run from any http server, for instance with python:
 
 ## usage
 
+
+### canvas context
+
 write live evalled code for the canvas element at the top of the page. The canvas' 2d context is accessed through ctx. Example:
 
    
@@ -50,7 +53,9 @@ write live evalled code for the canvas element at the top of the page. The canva
     }
 
 
-there is also an input object for basic mouse polling
+### input
+
+input object handles mouse information
 
 
     function draw(){
@@ -71,4 +76,20 @@ there is also an input object for basic mouse polling
         console.log("up event")
       }
     }
+
+### config
+
+config object handles app configuration
+
+      // changes canvas size to width=400 height=300
+      config.size(400, 300);
+
+      // toggles vim mode in editor
+      config.vi()
+
+      // toggles emacs mode in editor
+      config.emacs()
+
+      // remove keyboardHandler (default state)
+      config.noKeyboardHandler()
 
