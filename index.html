@@ -7,20 +7,34 @@
     <meta name="viewport" content="width=device-width">
     <style>
       .ace_editor { 
-          position: relative;
-          height: 700px;
-          width: 50%;
+        position: relative;
+        height: 700px;
+        width: 100%;
       }
       #container{
         margin-top: 10px;
         margin-left: 10px;
+        font-family: sans-serif;
+        color: rgb(230, 230, 230);
       }
       #errors{
         display: block;
         width: 50%;
         height: 10px;
-        font-family: sans-serif;
+        border-top: solid;
+        border-width: 1px;
         color: grey;
+        border-color: rgb(230, 230, 230); 
+      }
+      #left{
+        float: left;
+      }
+      #right{
+        margin-left: 350px;
+      }
+      #title a{
+        color: rgb(230, 230, 230);
+        text-decoration: none;
       }
       canvas{
         display: block;
@@ -37,8 +51,15 @@
 </head>
 <body>
   <div id="container">
-    <canvas id="myCanvas" width=300 height=300></canvas>
-    <p id="errors" rows="1" cols="80" spellcheck="false"></p>
-    <div id="editor" class="ace_editor"></div>
+    <div id="title">
+      <h2><a href="https://github.com/david-demainlalune/exquis_syntactic_sugar_test">canvas live coding</a></h2>
+    </div>
+    <div id="left">
+      <canvas id="myCanvas" width=300 height=300></canvas>
+    </div>
+    <div id="right">
+      <p id="errors" rows="1" cols="100" spellcheck="false"></p>
+      <div id="editor" class="ace_editor"></div>
+    </div>
   </div>
 </body>

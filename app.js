@@ -77,12 +77,16 @@ var main = function(){
 
         var size = function(width, height){
             var w = parseInt(width),
-                h = parseInt(height)
+                h = parseInt(height),
+                marginLeftOffset = 50;
+
             if (isNaN(w)  || isNaN(h)){
                 return;
             }
             canvas.width = w;
             canvas.height = h;
+            // css hack
+            document.getElementById("right").style.marginLeft = (w + marginLeftOffset) + "px";
         };
 
         return {
