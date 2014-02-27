@@ -63,7 +63,7 @@ var main = function(){
         return result;
     };
 
-    var buildConfig = function(editor){
+    var buildConfig = function(editor, canvas){
 
         var makeChangeKeyboardHandlerFunc = function(keyboardHandler){
             return function(weWantIt){
@@ -75,9 +75,20 @@ var main = function(){
             };
         };
 
+        var size = function(width, height){
+            var w = parseInt(width),
+                h = parseInt(height)
+            if (isNaN(w)  || isNaN(h)){
+                return;
+            }
+            canvas.width = w;
+            canvas.height = h;
+        };
+
         return {
             vi: makeChangeKeyboardHandlerFunc("ace/keyboard/vim"),
-            emacs: makeChangeKeyboardHandlerFunc("ace/keyboard/emacs")
+            emacs: makeChangeKeyboardHandlerFunc("ace/keyboard/emacs"),
+            size: size
         };
     };
 
@@ -164,7 +175,7 @@ var main = function(){
     editor = buildEditor("editor");
     editor.getSession().on('change', onEditorChange);
 
-    config = buildConfig(editor);
+    config = buildConfig(editor, canvas);
 
     generalizeRequestAnimation();
     requestAnimationFrame(render);
