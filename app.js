@@ -65,15 +65,9 @@ var main = function(){
 
     var buildConfig = function(editor, canvas){
 
-        var makeChangeKeyboardHandlerFunc = function(keyboardHandler){
-            return function(weWantIt){
-                if (weWantIt){
-                    editor.setKeyboardHandler(keyboardHandler);
-                }else{
-                    editor.setKeyboardHandler();
-                } 
-            };
-        };
+        var vi = function(){ editor.setKeyboardHandler("ace/keyboard/vim"); },
+            emacs = function() { editor.setKeyboardHandler("ace/keyboard/emacs"); },
+            noKeyboardHandler = function() { editor.setKeyboardHandler(); };
 
         var size = function(width, height){
             var w = parseInt(width),
@@ -90,8 +84,9 @@ var main = function(){
         };
 
         return {
-            vi: makeChangeKeyboardHandlerFunc("ace/keyboard/vim"),
-            emacs: makeChangeKeyboardHandlerFunc("ace/keyboard/emacs"),
+            vi: vi,
+            emacs: emacs,
+            noKeyboardHandler: noKeyboardHandler,
             size: size
         };
     };
