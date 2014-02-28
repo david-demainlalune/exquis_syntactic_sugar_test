@@ -7,7 +7,8 @@ var main = function(){
         currentParseObject = null,
         animObj = null,
         input,
-        config;
+        config,
+        localStorageKey = "saved_source";
 
 
     var getMousePos = function(canvas, evt) {
@@ -143,8 +144,15 @@ var main = function(){
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     };
 
+    var persistCodeString = function(codeString){ 
+        window.localStorage.setItem(localStorageKey, codeString);
+    };
+
     var onEditorChange = function(e){
-        var parseObj = parseExquis.stringToParseObject(editor.getValue());
+        var codeString = editor.getValue();
+        persistCodeString(codeString);
+
+        var parseObj = parseExquis.stringToParseObject(codeString);
 
         if (parseObj.error != null){
             errorsTextField.innerHTML = parseObj.error.message;
@@ -171,10 +179,16 @@ var main = function(){
 
 
     input = buildInput(canvas);
+    
     editor = buildEditor("editor");
     editor.getSession().on('change', onEditorChange);
 
     config = buildConfig(editor, canvas);
+
+    f.maybe(function(saved_source){
+        editor.setValue(saved_source);
+        editor.getSession().selection.clearSelection();
+    })(window.localStorage.getItem(localStorageKey));
 
     generalizeRequestAnimation();
     requestAnimationFrame(render);
