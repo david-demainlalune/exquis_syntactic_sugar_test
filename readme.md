@@ -2,7 +2,7 @@
 
 This live coding environment exposes an html5 canvas tag. It is developped as a side project/test for the ["exquis"](https://github.com/gongfuio/Exquis) environment. It explores the possibility of simplifying the current "exquis" user syntax. 
 
-You can play around with it [here](http://david-demainlalune.github.io/exquis_syntactic_sugar_test/). The code is locally persisted (localstorage).
+You can play around with it [here](http://david-hodgetts.github.io/exquis_syntactic_sugar_test/). The code is locally persisted (localstorage).
 
 ## idea
 Transform user syntax of type:
